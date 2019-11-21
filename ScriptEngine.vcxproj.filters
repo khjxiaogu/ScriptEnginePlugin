@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="tjs">
+      <UniqueIdentifier>{27b54bc2-4578-40c4-9b94-28e84aaadf5a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ncb_foreach.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ncb_invoke.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ncbind.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="propmacros.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tp_stub.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Callers.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Convert.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CPConv.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="KRunnable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="NativeObject.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjs.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjs.tab.hpp">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsArray.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsBinarySerializer.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsByteCodeLoader.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsCommHead.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsCompileControl.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsConfig.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsConstArrayData.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsDate.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsdate.tab.hpp">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsDateParser.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsDebug.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsDictionary.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsError.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsErrorDefs.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsErrorInc.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsException.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsGlobalStringMap.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsHashSearch.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsInterCodeExec.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsInterCodeGen.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsInterface.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsLex.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsMath.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsMessage.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsMT19937ar-cok.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsNamespace.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsNative.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsObject.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsObjectExtendable.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsOctPack.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjspp.tab.hpp">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsRandomGenerator.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsRegExp.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsScriptBlock.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsScriptCache.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsString.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsTypes.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsUtils.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsVariant.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+    <ClInclude Include="tjs\tjsVariantString.h">
+      <Filter>tjs</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ncbind.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tp_stub.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CPConv.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="KRunnable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptEngine.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
