@@ -188,6 +188,7 @@ public:
 };
 //define Native function lambda type
 using NativeTJSFunction = std::function<tjs_error(tTJSVariant * r, tjs_int n, tTJSVariant * *p)>;
+#define TJSNATIVEARG (tTJSVariant* r, tjs_int n, tTJSVariant** p)->tjs_error 
 //Function caller to provide a bridge between tjs function and native function
 class FunctionCaller : public tTJSDispatch
 {

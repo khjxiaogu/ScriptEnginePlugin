@@ -11,9 +11,9 @@
 #ifndef tjsVariantStringH
 #define tjsVariantStringH
 
+#include <string.h>
 #include "tjsConfig.h"
 #include <stdlib.h>
-#include <string.h>
 
 namespace TJS
 {

@@ -27,9 +27,6 @@
     <ClInclude Include="ncbind.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="propmacros.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="tp_stub.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -174,6 +171,33 @@
     <ClInclude Include="tjs\tjsVariantString.h">
       <Filter>tjs</Filter>
     </ClInclude>
+    <ClInclude Include="ConcurrentDispatchWrapper.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="KRScript.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TJSToStubWrapper.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="initScript.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="propmacros.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugItem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StorageObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="string_table_resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="messages.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ncbind.cpp">
@@ -191,5 +215,35 @@
     <ClCompile Include="ScriptEngine.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="concurrentDispatchWrapper.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="KRScript.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\uni_cp932.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\cp932_uni.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="propmacros.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugItem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StorageObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Convert.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="messages.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------
 // "tTJS" script language API class implementation
 //---------------------------------------------------------------------------
-
+#pragma once
 #ifndef tjsH
 #define tjsH
 
@@ -159,7 +159,7 @@ public:
 	void DoGarbageCollection();
 
 	// for Bytecode
-	void LoadByteCode( const tjs_uint8* buff, size_t len, tTJSVariant *result = NULL,
+	void xLoadByteCode( const tjs_uint8* buff, size_t len, tTJSVariant *result = NULL,
 		iTJSDispatch2 *context = NULL, const tjs_char *name = NULL);
 
 	bool LoadByteCode( class tTJSBinaryStream* stream, tTJSVariant *result = NULL,

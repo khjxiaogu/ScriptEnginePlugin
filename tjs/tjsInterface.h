@@ -351,5 +351,5 @@ public:
 
 } // namespace TJS
 
-using namespace TJS;
+//using namespace TJS;
 #endif

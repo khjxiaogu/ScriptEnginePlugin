@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScriptEngine", "ScriptEngine.vcxproj", "{8A7000E2-DA06-4AB8-B359-818D992FE68A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{50C9F662-CC2B-475F-A3BA-01724AD7F8DB} = {50C9F662-CC2B-475F-A3BA-01724AD7F8DB}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TJSEngine", "..\..\&krkr IDE\krkez\TJSEngine\TJSEngine.vcxproj", "{50C9F662-CC2B-475F-A3BA-01724AD7F8DB}"
 EndProject

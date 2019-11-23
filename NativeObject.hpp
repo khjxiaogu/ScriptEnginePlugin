@@ -8,6 +8,10 @@
  *  Web: http://www.khjxiaogu.com
 */
 #pragma once
+#include<mutex>
+#include <functional>
+#include <map>
+
 //Native Object to provide bridge between TJS Object call and Native Object
 class NativeObject : public tTJSDispatch
 {
@@ -21,7 +25,7 @@ public:
 	}
 	//free all functions within this object
 	virtual ~NativeObject() {
-		std::lock_guard<std::mutex> lock(concurrent);
+		std::unique_lock<std::mutex> lock(concurrent);
 		for (std::map<std::wstring, iTJSDispatch2*>::iterator it = functions.begin(); it != functions.end(); it++) {
 			try {
 				it->second->Release();
@@ -45,7 +49,7 @@ public:
 		tTJSVariant** param,		// parameters
 		iTJSDispatch2* objthis		// object as "this"
 	) {
-		std::lock_guard<std::mutex> lock(concurrent);
+		std::unique_lock<std::mutex> lock(concurrent);
 		if (!membername)return TJS_E_MEMBERNOTFOUND;
 		if (functions.find(membername) != functions.end())
 			return functions.at(membername)->FuncCall(flag, NULL, hint, result, numparams, param, objthis);
@@ -60,7 +64,7 @@ public:
 		iTJSDispatch2* objthis
 	)
 	{
-		std::lock_guard<std::mutex> lock(concurrent);
+		std::unique_lock<std::mutex> lock(concurrent);
 		if (!membername) {
 			*result = tTJSVariant(this);
 			return TJS_S_OK;
@@ -81,7 +85,7 @@ public:
 		iTJSDispatch2* objthis
 	)
 	{
-		std::lock_guard<std::mutex> lock(concurrent);
+		std::unique_lock<std::mutex> lock(concurrent);
 		if (!membername) {
 			return TJS_E_NOTIMPL;
 		}
@@ -104,20 +108,20 @@ public:
 	}
 	//macro to put lambda function into this object
 	void putFunc(const std::wstring str, NativeTJSFunction func) {
-		std::lock_guard<std::mutex> lock(concurrent);
+		std::unique_lock<std::mutex> lock(concurrent);
 		functions.insert(std::pair<std::wstring, iTJSDispatch2*>(str, (new FunctionCaller(func))));
 	}
 	//macro to put lambda properto into this object.
 	template<typename  T> void putProp(const std::wstring str,
 		typename PropertyCaller<T>::getterT getter = NULL,
 		typename PropertyCaller<T>::setterT setter = NULL) {
-		std::lock_guard<std::mutex> lock(concurrent);
+		std::unique_lock<std::mutex> lock(concurrent);
 		functions.insert(std::pair<std::wstring, iTJSDispatch2*>(str, (new PropertyCaller<T>(getter, setter))));
 	}
 	tjs_error TJS_INTF_METHOD
 		EnumMembers(tjs_uint32 flag, tTJSVariantClosure* callback, iTJSDispatch2* objthis)
 	{
-		std::lock_guard<std::mutex> lock(concurrent);
+		std::unique_lock<std::mutex> lock(concurrent);
 		tTJSVariant* par[3];
 		par[0] = new tTJSVariant();
 		par[1] = new tTJSVariant(NULL);
@@ -152,7 +156,7 @@ public:
 			iTJSDispatch2* objthis
 		)
 	{
-		std::lock_guard<std::mutex> lock(concurrent);
+		std::unique_lock<std::mutex> lock(concurrent);
 		if (!membername) {
 			return TJS_E_MEMBERNOTFOUND;
 		}
@@ -171,7 +175,7 @@ public:
 			iTJSDispatch2* objthis
 		)
 	{
-		std::lock_guard<std::mutex> lock(concurrent);
+		std::unique_lock<std::mutex> lock(concurrent);
 		if (!membername) {
 			return TJS_S_TRUE;
 		}
@@ -191,7 +195,7 @@ public:
 		)
 	{
 		if (!membername) {
-			if (wcscmp(classname, L"Class") || wcscmp(classname, getClass()))
+			if (!wcscmp(classname, L"Class") || !wcscmp(classname, getClass()))
 				return TJS_S_TRUE;
 		}
 		else

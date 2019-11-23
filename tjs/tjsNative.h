@@ -10,7 +10,7 @@
 //---------------------------------------------------------------------------
 #ifndef tjsNativeH
 #define tjsNativeH
-
+#undef __TP_STUB_H__
 #include "tjsObjectExtendable.h"
 
 namespace TJS

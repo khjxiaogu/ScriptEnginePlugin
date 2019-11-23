@@ -1,4 +1,4 @@
-
+#pragma once
 /*
  *  Convert.hpp
  *  Provides Simple Convertion Template between C++ types and TJS types
@@ -19,12 +19,12 @@
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU Affero General Public License for more details.
 */
-#pragma once
+
 #include <functional>
 #include <fstream>
 #include <vector>
-#include <ObjIdl.h>
-#include "propmacros.h"
+#include <windows.h>
+#include "propmacros.hpp"
 #include "ncbind.hpp"
 #include <string>
 #include "CPConv.h"
@@ -32,38 +32,14 @@
 #include "NativeObject.hpp"
 
 //Convert T(JS) String to std C(++) UTF-8 String. 
-std::string TStrToCStrUTF8(const ttstr& str) {
-	char* cs = WCSToUTF8(str.c_str());
-	std::string cstr;
-	cstr.assign(cs);
-	delete[] cs;
-	return cstr;
-}
+std::string TStrToCStrUTF8(const ttstr& str);
 //Convert T(JS) String to std C(++) ANSI String. 
-std::string TStrToCStr(const ttstr& str) {
-	char* cs = UnicodeToAnsi(str.c_str());
-	std::string cstr;
-	cstr.assign(cs);
-	delete[] cs;
-	return cstr;
-}
+std::string TStrToCStr(const ttstr& str);
 //Get T(JS) String from std C(++) String. 
-ttstr CStrToTStr(const std::string& str) {
-	tTJSString res((const tjs_nchar*)str.c_str());
-	return res;
-}
+ttstr CStrToTStr(const std::string& str);
 //Convert T(JS) Octet to std C(++) String. 
-std::string TOctToCStr(tTJSVariantOctet* oct) {
-	return std::string((const char*)oct->GetData(), oct->GetLength());
-}
+std::string TOctToCStr(tTJSVariantOctet* oct);
 //Get T(JS) Octet from std C(++) String. 
-tTJSVariantOctet* CStrToTOct(std::string s) {
-	return new tTJSVariantOctet((unsigned char*)s.c_str(), s.size());
-}
+tTJSVariantOctet* CStrToTOct(std::string s);
 //Iterate Object members and call function.
-void IterateObject(iTJSDispatch2* obj,std::function<void(tTJSVariant*, tTJSVariant*)>func) {
-	ObjectIterateCaller* caller = new ObjectIterateCaller(func);
-	tTJSVariantClosure tvc(caller);
-	obj->EnumMembers(NULL,&tvc,NULL);
-	caller->Release();
-}
+void IterateObject(iTJSDispatch2* obj, std::function<void(tTJSVariant*, tTJSVariant*)>func);
