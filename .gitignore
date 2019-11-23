@@ -16,7 +16,6 @@
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
-[Rr]elease/
 [Rr]eleases/
 x64/
 x86/
@@ -338,3 +337,15 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/Release Japanese Message/ScriptEngine.tlog
+/Release/TJSEngine.lib
+/Release/ScriptEngine_JP.lib
+/Release/ScriptEngine_JP.exp
+/Release/ScriptEngine_EN.lib
+/Release/ScriptEngine_EN.exp
+/Release/ScriptEngine_CN.lib
+/Release/ScriptEngine_CN.exp
+/Release/ScriptEngine.vcxproj.FileListAbsolute.txt
+/Release/ScriptEngine.lib
+/Release/ScriptEngine.exp
+/Release/ScriptEngine.tlog
