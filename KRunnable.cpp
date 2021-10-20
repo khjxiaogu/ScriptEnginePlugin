@@ -1,18 +1,20 @@
 #include "KRunnable.h"
 #include <thread>
+#include <iostream>
 static ATOM WindowClass;
 HWND hwnd;
 static LRESULT WINAPI WndProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp) {
 	if (msg == ON_K_EVENT) {
-		//prevent all exceptions
+		//prevent all exceptions.
 		KRunnable* kr = ((KRunnable*)lp);
 		__try {
 			kr->run();
+			kr->End();
 		}
 		__except (1) {
-
+			kr->Fail();
 		}
-		kr->End();
+		//also,no exception show be here.
 		__try {
 			if(!kr->is_timer)
 			delete kr;
@@ -30,23 +32,20 @@ void createMessageWindow() {
 			/*size*/sizeof(WNDCLASSEX), /*style*/0, /*proc*/WndProc, /*extra*/0L,0L, /*hinst*/hinst,
 			/*icon*/NULL, /*cursor*/NULL, /*brush*/NULL, /*menu*/NULL,
 			/*class*/L"KHttpServer Msg wnd class", /*smicon*/NULL };
-		WindowClass = ::RegisterClassExW(&wcex);
-		if (!WindowClass)
-			throw L"register window class failed.";
+		
+		while (!WindowClass)
+			WindowClass = ::RegisterClassExW(&wcex);
+			
 	}
 	//create a window for this instance to receive messahes
 	hwnd = ::CreateWindowExW(0, (LPCWSTR)MAKELONG(WindowClass, 0), L"KRunnableMsg",
 		0, 0, 0, 1, 1, HWND_MESSAGE, NULL, hinst, NULL);
-	if (!hwnd) throw "create message window failed.";
 }
 
 KRunnable::KRunnable(Runnable func) :run(func),future(NULL) {}
 
-KRunnable::KRunnable(Runnable func, KFuture* future)
-{
-	KRunnable::KRunnable(func);
-	this->future = future;
-}
+KRunnable::KRunnable(Runnable func, KFuture* future) : run(func), future(future)
+{}
 
 KRunnable* KRunnable::runTask()
 {
@@ -54,7 +53,8 @@ KRunnable* KRunnable::runTask()
 		Start();
 		if (!hwnd)
 			createMessageWindow();
-		PostMessageW(hwnd, ON_K_EVENT, NULL, (LPARAM)this);
+		if (!PostMessageW(hwnd, ON_K_EVENT, (WPARAM)this, (LPARAM)this))
+			std::cout<<GetLastError();
 	}
 	return this;
 }
@@ -88,7 +88,7 @@ KRunnable* KRunnable::runTaskAsync()
 		}
 		
 		if (!is_timer)
-		delete this;
+			delete this;
 		//delete th;
 	});
 	th.detach();
@@ -189,8 +189,10 @@ void KFuture::complete()
 
 bool KFuture::wait(long time)
 {
-	std::unique_lock<std::timed_mutex> tlock(waitlock);
-	return tlock.try_lock_for(std::chrono::milliseconds(time));
+	bool res= waitlock.try_lock_for(std::chrono::milliseconds(time));
+	if (res)
+		waitlock.unlock();
+	return res;
 }
 
 void KFuture::wait()
@@ -201,10 +203,16 @@ void KFuture::wait()
 
 bool KFuture::isCompleted()
 {
+
 	if (waitlock.try_lock()) {
 		waitlock.unlock();
 		return true;
 	}
 	else
 		return false;
+}
+
+void KFuture::fail()
+{
+	waitlock.unlock();
 }

@@ -17,7 +17,7 @@ class NativeObject : public tTJSDispatch
 {
 public:
 	//map to store interal functions
-	std::map<std::wstring, iTJSDispatch2*> functions;
+	std::map<std::wstring,tTJSVariant> functions;
 	//lock to prevent multi-threading errors
 	std::mutex concurrent;
 	//Constructors are defined by children.
@@ -25,15 +25,15 @@ public:
 	}
 	//free all functions within this object
 	virtual ~NativeObject() {
-		std::unique_lock<std::mutex> lock(concurrent);
-		for (std::map<std::wstring, iTJSDispatch2*>::iterator it = functions.begin(); it != functions.end(); it++) {
+		//std::lock_guard<std::mutex> lock(concurrent);
+		/*for (std::map<std::wstring, tTJSVariant>::iterator it = functions.begin(); it != functions.end(); it++) {
 			try {
 				it->second->Release();
 			}
 			catch (...)
 			{
 			}
-		}
+		}*/
 		//TVPAddLog("native obj released");
 	}
 	//for instanceof operation,reload this to set the class name
@@ -49,12 +49,18 @@ public:
 		tTJSVariant** param,		// parameters
 		iTJSDispatch2* objthis		// object as "this"
 	) {
-		std::unique_lock<std::mutex> lock(concurrent);
+		//std::lock_guard<std::mutex> lock(concurrent);
+		//TVPAddLog("fcbn");
+		
 		if (!membername)return TJS_E_MEMBERNOTFOUND;
-		if (functions.find(membername) != functions.end())
-			return functions.at(membername)->FuncCall(flag, NULL, hint, result, numparams, param, objthis);
+		auto it = functions.find(membername);
+		if (it != functions.end()) {
+			int rst=it->second.AsObjectNoAddRef()->FuncCall(flag, NULL, hint, result, numparams, param,it->second.AsObjectThisNoAddRef());
+			return rst;
+		}
 		else
 			return TJS_E_MEMBERNOTFOUND;
+		
 	}
 	virtual tjs_error TJS_INTF_METHOD PropGet(
 		tjs_uint32 flag,
@@ -64,18 +70,24 @@ public:
 		iTJSDispatch2* objthis
 	)
 	{
-		std::unique_lock<std::mutex> lock(concurrent);
+		std::lock_guard<std::mutex> lock(concurrent);
 		if (!membername) {
 			*result = tTJSVariant(this);
 			return TJS_S_OK;
 		}
-		else
-			if (functions.find(membername) != functions.end()) {
-				*result = tTJSVariant(&(functions.at(membername)));
+		else {
+			auto it = functions.find(membername);
+			if (it!= functions.end()) {
+				//
+				if (it->second.Type() == tvtObject) {
+					if (it->second.AsObjectNoAddRef()->PropGet(NULL, NULL, NULL, result, it->second.AsObjectNoAddRef()) == TJS_S_OK)return TJS_S_OK;
+				}
+				*result = it->second;
 				return TJS_S_OK;
 			}
 			else
 				return TJS_E_MEMBERNOTFOUND;
+		}
 	}
 	virtual tjs_error TJS_INTF_METHOD PropSet(
 		tjs_uint32 flag,
@@ -85,15 +97,27 @@ public:
 		iTJSDispatch2* objthis
 	)
 	{
-		std::unique_lock<std::mutex> lock(concurrent);
+		std::lock_guard<std::mutex> lock(concurrent);
 		if (!membername) {
 			return TJS_E_NOTIMPL;
 		}
-		else if (param->Type() == tvtObject) {
-			if (functions.find(membername) != functions.end()) {
-				functions.at(membername)->Release();
+		else {/* if (param->Type() == tvtObject) {*/
+			auto it = functions.find(membername);
+			if (it != functions.end()) {
+				if (it->second.Type() == tvtObject) {
+					tjs_error hr=it->second.AsObjectNoAddRef()->PropSet(0, NULL, NULL, param,objthis);
+					if (TJS_SUCCEEDED(hr)) return hr;
+					if (hr != TJS_E_NOTIMPL && hr != TJS_E_INVALIDTYPE &&
+						hr != TJS_E_INVALIDOBJECT)
+						return hr;
+				}
+				functions.erase(it);
 			}
-			functions.insert(std::pair<std::wstring, iTJSDispatch2*>(std::wstring(membername), (param->AsObject())));
+			
+			functions.insert(std::pair<std::wstring, tTJSVariant>(std::wstring(membername), *param));
+		}
+		/*	//functions.emplace(std::pair<std::wstring, iTJSDispatch2*>(std::wstring(membername), (param->AsObjectNoAddRef())));
+			return TJS_S_OK;
 		}
 		else
 			if (functions.find(membername) != functions.end()) {
@@ -101,34 +125,34 @@ public:
 				return TJS_S_OK;
 			}
 			else
-				return TJS_E_MEMBERNOTFOUND;
+				return TJS_E_MEMBERNOTFOUND;*/
 
-		return TJS_E_MEMBERNOTFOUND;
+		return TJS_S_OK;
 
 	}
 	//macro to put lambda function into this object
 	void putFunc(const std::wstring str, NativeTJSFunction func) {
-		std::unique_lock<std::mutex> lock(concurrent);
-		functions.insert(std::pair<std::wstring, iTJSDispatch2*>(str, (new FunctionCaller(func))));
+		std::lock_guard<std::mutex> lock(concurrent);
+		functions.emplace(std::pair<std::wstring, tTJSVariant>(str, (new FunctionCaller(func))));
 	}
 	//macro to put lambda properto into this object.
 	template<typename  T> void putProp(const std::wstring str,
 		typename PropertyCaller<T>::getterT getter = NULL,
 		typename PropertyCaller<T>::setterT setter = NULL) {
-		std::unique_lock<std::mutex> lock(concurrent);
-		functions.insert(std::pair<std::wstring, iTJSDispatch2*>(str, (new PropertyCaller<T>(getter, setter))));
+		std::lock_guard<std::mutex> lock(concurrent);
+		functions.emplace(std::pair<std::wstring, tTJSVariant>(str, (new PropertyCaller<T>(getter, setter))));
 	}
 	tjs_error TJS_INTF_METHOD
 		EnumMembers(tjs_uint32 flag, tTJSVariantClosure* callback, iTJSDispatch2* objthis)
 	{
-		std::unique_lock<std::mutex> lock(concurrent);
+		std::lock_guard<std::mutex> lock(concurrent);
 		tTJSVariant* par[3];
 		par[0] = new tTJSVariant();
 		par[1] = new tTJSVariant(NULL);
 		par[2] = new tTJSVariant();
-		for (std::map<std::wstring, iTJSDispatch2*>::iterator it = functions.begin(); it != functions.end(); it++) {
+		for (std::map<std::wstring, tTJSVariant>::iterator it = functions.begin(); it != functions.end(); it++) {
 			*par[0] = ttstr(it->first.c_str());
-			*par[2] = tTJSVariant(&(*(it->second)));
+			*par[2] = it->second;
 			callback->FuncCall(NULL, NULL, NULL, &tTJSVariant(), 3, par, objthis);
 		}
 		return TJS_S_OK;
@@ -156,12 +180,12 @@ public:
 			iTJSDispatch2* objthis
 		)
 	{
-		std::unique_lock<std::mutex> lock(concurrent);
+		std::lock_guard<std::mutex> lock(concurrent);
 		if (!membername) {
 			return TJS_E_MEMBERNOTFOUND;
 		}
 		if (functions.find(membername) != functions.end()) {
-			functions.at(membername)->Release();
+			//functions.at(membername)->Release();
 			functions.erase(membername);
 			return TJS_S_OK;
 		}
@@ -175,13 +199,13 @@ public:
 			iTJSDispatch2* objthis
 		)
 	{
-		std::unique_lock<std::mutex> lock(concurrent);
+		std::lock_guard<std::mutex> lock(concurrent);
 		if (!membername) {
 			return TJS_S_TRUE;
 		}
 		if (functions.find(membername) != functions.end()) {
 
-			return TJSIsObjectValid(functions.at(membername)->IsValid(flag, NULL, hint, objthis));
+			return TJSIsObjectValid(functions.at(membername).AsObjectNoAddRef()->IsValid(flag, NULL, hint, objthis));
 		}
 		return TJS_E_MEMBERNOTFOUND;
 	}
@@ -199,7 +223,7 @@ public:
 				return TJS_S_TRUE;
 		}
 		else
-			return functions.at(membername)->IsInstanceOf(flag, NULL, hint, classname, objthis);
+			return functions.at(membername).AsObjectNoAddRef()->IsInstanceOf(flag, NULL, hint, classname, objthis);
 		return TJS_S_FALSE;
 	}
 };

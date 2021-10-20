@@ -249,7 +249,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>TJSEngine.lib;onig_s.lib;onig_s_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Release/TJSEngine.lib;onig_s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Japanese Message|Win32'">
@@ -419,6 +419,7 @@
     <ClInclude Include="Convert.hpp" />
     <ClInclude Include="CPConv.h" />
     <ClInclude Include="DebugItem.h" />
+    <ClInclude Include="FutureObject.h" />
     <ClInclude Include="initScript.h" />
     <ClInclude Include="KRScript.h" />
     <ClInclude Include="KRunnable.h" />
@@ -428,6 +429,8 @@
     <ClInclude Include="ncb_foreach.h" />
     <ClInclude Include="ncb_invoke.hpp" />
     <ClInclude Include="propmacros.hpp" />
+    <ClInclude Include="ScriptEngine.h" />
+    <ClInclude Include="ScriptsObject.h" />
     <ClInclude Include="StorageObject.h" />
     <ClInclude Include="string_table_resource.h" />
     <ClInclude Include="TJSToStubWrapper.hpp" />
@@ -480,12 +483,14 @@
     <ClCompile Include="Convert.cpp" />
     <ClCompile Include="CPConv.cpp" />
     <ClCompile Include="DebugItem.cpp" />
+    <ClCompile Include="FutureObject.cpp" />
     <ClCompile Include="KRScript.cpp" />
     <ClCompile Include="KRunnable.cpp" />
     <ClCompile Include="messages.cpp" />
     <ClCompile Include="ncbind.cpp" />
     <ClCompile Include="propmacros.cpp" />
     <ClCompile Include="ScriptEngine.cpp" />
+    <ClCompile Include="ScriptsObject.cpp" />
     <ClCompile Include="StorageObject.cpp" />
     <ClCompile Include="tp_stub.cpp" />
     <ClCompile Include="utils\cp932_uni.cpp" />

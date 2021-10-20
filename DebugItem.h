@@ -19,6 +19,7 @@ class DebugItem :public TJS::iTJSConsoleOutput
 	KRunnable* kr;
 public:
 	DebugItem(const ttstr& name);
+	virtual ~DebugItem();
 	virtual void ExceptionPrint(const tjs_char* msg);
 	virtual void Print(const tjs_char* msg);
 	void depletmsgs();

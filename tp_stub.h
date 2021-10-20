@@ -9,7 +9,7 @@
 /* Modification by hand will be lost. */
 //#ifndef __TP_STUB_H__
 
-#pragma once;
+#pragma once
 #define __TP_STUB_H__
 #ifndef __cplusplus
 	#error Sorry, currently tp_stub.h can only be used in C++ mode.

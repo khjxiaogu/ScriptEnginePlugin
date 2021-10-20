@@ -194,7 +194,9 @@ class FunctionCaller : public tTJSDispatch
 {
 public:
 	NativeTJSFunction func;
-
+	virtual void BeforeDestruction(void) {
+		TVPAddLog("Function deleted");
+	}
 	FunctionCaller(NativeTJSFunction func)
 		: func(func) {
 	}

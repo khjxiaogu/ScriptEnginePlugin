@@ -10,10 +10,15 @@ DebugItem::DebugItem(const ttstr& name) :itemname(name + L":") {
 	kr->is_timer = true;
 }
 
+DebugItem::~DebugItem()
+{
+	delete kr;
+}
+
 void DebugItem::ExceptionPrint(const tjs_char* msg) {
 	if (!msg)
 		return;
-	std::unique_lock<std::mutex> lck(lock);
+	std::lock_guard<std::mutex> lck(lock);
 #ifdef THROW_GLOBAL_EXCEPTION
 	exeptmsgs.push_back(erritemname + msg);
 #else
@@ -25,13 +30,14 @@ void DebugItem::ExceptionPrint(const tjs_char* msg) {
 void DebugItem::Print(const tjs_char* msg) {
 	if (!msg)
 		return;
-	std::unique_lock<std::mutex> lck(lock);
+	std::lock_guard<std::mutex> lck(lock);
 	nmsgs.push_back(itemname + msg);
 	kr->runTask();
 }
 
 void DebugItem::depletmsgs() {
-	std::unique_lock<std::mutex> lck(lock);
+	
+	
 	ttstr msg;
 	//msg.AppendBuffer(10);
 #ifdef THROW_GLOBAL_EXCEPTION
@@ -41,6 +47,7 @@ void DebugItem::depletmsgs() {
 		TVPThrowExceptionMessage(msg);
 	}
 #endif
+	std::lock_guard<std::mutex> lck(lock);
 	while (!nmsgs.empty()) {
 		msg = nmsgs.front();
 		nmsgs.pop_front();
@@ -60,7 +67,7 @@ DebugObject::DebugObject(DebugItem* di) :item(di) {
 		});
 	putFunc(L"getLastLog", [this]TJSNATIVEARG{
 		TJS::iTJSDispatch2 * array = TJS::TJSCreateArrayObject();
-	std::unique_lock<std::mutex> lck(item->lock);
+	std::lock_guard<std::mutex> lck(item->lock);
 	ttstr msg;
 	tjs_int i = 0;
 	while (!item->nmsgs.empty()) {

@@ -198,6 +198,15 @@
     <ClInclude Include="messages.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="FutureObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptEngine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriptsObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ncbind.cpp">
@@ -240,6 +249,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="messages.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FutureObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriptsObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

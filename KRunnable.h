@@ -10,11 +10,12 @@ class KFuture {
 	std::timed_mutex waitlock;
 public:
 	KFuture();
-	void start();
-	void complete();
-	bool wait(long time);
-	void wait();
-	bool isCompleted();
+	virtual void start();
+	virtual void complete();
+	virtual bool wait(long time);
+	virtual void wait();
+	virtual bool isCompleted();
+	virtual void fail();
 };
 class KRunnable
 {
@@ -31,6 +32,11 @@ protected:
 		is_running = false;
 		if (future)
 			future->complete();
+	}
+	void Fail() {
+		is_running = false;
+		if (future)
+			future->fail();
 	}
 public:
 	bool is_timer = false;

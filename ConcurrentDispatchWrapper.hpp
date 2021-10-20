@@ -21,7 +21,7 @@
 #include "propmacros.hpp"
 #include <mutex>
 
-#define LOCK std::unique_lock<std::mutex> lck(lock)
+#define LOCK std::lock_guard<std::mutex> lck(lock)
 
 tjs_error PatchResult(tjs_error hr, tTJSVariant* result);
 tjs_error PatchResult(tjs_error hr, iTJSDispatch2** result);
